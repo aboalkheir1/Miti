@@ -1,0 +1,1583 @@
+/* متغيرات CSS للثيمات */
+:root {
+    /* الثيم الافتراضي - الأزرق الأنيق */
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --accent-color: #f093fb;
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --danger-color: #f44336;
+    --info-color: #2196F3;
+    
+    /* ألوان الخلفية */
+    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.1);
+    --bg-card: rgba(255, 255, 255, 0.15);
+    --bg-overlay: rgba(0, 0, 0, 0.5);
+    
+    /* ألوان النص */
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.8);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    
+    /* الظلال */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 16px 64px rgba(0, 0, 0, 0.25);
+    
+    /* الحدود */
+    --border-radius: 16px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 24px;
+    
+    /* الانتقالات */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease;
+    --transition-slow: all 0.5s ease;
+}
+
+/* ثيمات إضافية */
+[data-theme="dark"] {
+    --primary-color: #1a1a2e;
+    --secondary-color: #16213e;
+    --accent-color: #0f3460;
+    --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.05);
+    --bg-card: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="purple"] {
+    --primary-color: #8e44ad;
+    --secondary-color: #9b59b6;
+    --accent-color: #e74c3c;
+    --bg-primary: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+}
+
+[data-theme="green"] {
+    --primary-color: #27ae60;
+    --secondary-color: #2ecc71;
+    --accent-color: #f39c12;
+    --bg-primary: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+}
+
+[data-theme="sunset"] {
+    --primary-color: #ff7b7b;
+    --secondary-color: #667eea;
+    --accent-color: #f093fb;
+    --bg-primary: linear-gradient(135deg, #ff7b7b 0%, #667eea 100%);
+}
+
+/* إعدادات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rubik', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* الشاشات */
+.screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: var(--transition);
+    z-index: 10;
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+/* شاشة البداية */
+#startScreen {
+    gap: 30px;
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.game-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, var(--accent-color), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% { filter: drop-shadow(0 0 10px rgba(240, 147, 251, 0.5)); }
+    100% { filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.8)); }
+}
+
+.game-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* إحصائيات اللاعب */
+.player-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 150px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* شريط الخبرة */
+.experience-bar-container {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 30px;
+}
+
+.experience-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.experience-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.experience-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+    border-radius: 6px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(240, 147, 251, 0.5);
+    width: 0%;
+}
+
+/* أنماط اللعب */
+.game-modes {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.game-modes h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mode-btn {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 200px;
+    color: var(--text-primary);
+    font-family: inherit;
+    box-shadow: var(--shadow-md);
+}
+
+.mode-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
+    background: rgba(240, 147, 251, 0.1);
+}
+
+.mode-btn:active {
+    transform: translateY(-1px);
+}
+
+.mode-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.mode-info {
+    text-align: right;
+}
+
+.mode-info h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.mode-info p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* الأزرار الرئيسية */
+.main-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.main-btn {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-md);
+}
+
+.main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.shop-btn:hover {
+    border-color: var(--warning-color);
+    background: rgba(255, 152, 0, 0.1);
+}
+
+.achievements-btn:hover {
+    border-color: var(--success-color);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.settings-btn:hover {
+    border-color: var(--info-color);
+    background: rgba(33, 150, 243, 0.1);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+/* شاشة اللعبة */
+#gameScreen {
+    padding: 20px;
+    gap: 20px;
+}
+
+.game-ui {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.current-player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.player-indicator {
+    background: var(--accent-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: var(--border-radius-sm);
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.game-score {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.score-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.score-separator {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.round-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.back-btn {
+    background: var(--danger-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+}
+
+.back-btn:hover {
+    background: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* لوحة اللعبة */
+.game-board-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-lg);
+}
+
+.cell {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.cell:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.cell.filled {
+    cursor: not-allowed;
+}
+
+.cell.filled:hover {
+    transform: none;
+}
+
+.cell.x {
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.cell.o {
+    color: #4ecdc4;
+    text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+}
+
+/* خط الفوز */
+.winning-line {
+    position: absolute;
+    background: var(--accent-color);
+    border-radius: 4px;
+    opacity: 0;
+    transition: var(--transition);
+    box-shadow: 0 0 20px var(--accent-color);
+    z-index: 10;
+}
+
+.winning-line.show {
+    opacity: 1;
+    animation: winningLineGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes winningLineGlow {
+    0% { box-shadow: 0 0 20px var(--accent-color); }
+    100% { box-shadow: 0 0 40px var(--accent-color); }
+}
+
+/* أزرار التحكم */
+.game-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.control-btn {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-color);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* شاشة المتجر */
+#shopScreen {
+    padding: 20px;
+    align-items: flex-start;
+    overflow-y: auto;
+}
+
+.shop-header {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.shop-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.currency-display {
+    display: flex;
+    gap: 20px;
+}
+
+.currency-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-sm);
+}
+
+.currency-icon {
+    font-size: 1.2rem;
+}
+
+.currency-value {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.close-btn {
+    background: var(--danger-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.close-btn:hover {
+    background: #d32f2f;
+    transform: scale(1.1);
+}
+
+/* فئات المتجر */
+.shop-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.category-btn {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+.category-btn:hover {
+    background: var(--bg-card);
+    border-color: var(--accent-color);
+}
+
+.category-btn.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.category-icon {
+    font-size: 1.2rem;
+}
+
+/* محتوى المتجر */
+.shop-content {
+    width: 100%;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* الإشعارات */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: var(--transition);
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-icon {
+    font-size: 1.2rem;
+}
+
+.notification-text {
+    font-weight: 500;
+}
+
+/* الجسيمات */
+.particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: particleFloat 2s ease-out forwards;
+}
+
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.5);
+    }
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    .player-stats {
+        gap: 10px;
+    }
+    
+    .stat-card {
+        min-width: 120px;
+        padding: 15px;
+    }
+    
+    .mode-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mode-btn {
+        min-width: 280px;
+    }
+    
+    .game-board-container {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .cell {
+        font-size: 2.5rem;
+    }
+    
+    .game-ui {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .shop-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .screen {
+        padding: 15px;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .stat-card {
+        min-width: 100px;
+        padding: 12px;
+    }
+    
+    .stat-icon {
+        font-size: 1.5rem;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .game-board-container {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .cell {
+        font-size: 2rem;
+    }
+    
+    .mode-btn {
+        min-width: 250px;
+        padding: 15px;
+    }
+    
+    .mode-icon {
+        font-size: 2rem;
+    }
+}
+
+
+/* تصميم عناصر المتجر */
+.shop-item {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.shop-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.shop-item-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.shop-item-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.shop-item-info {
+    flex: 1;
+}
+
+.shop-item-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.shop-item-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.shop-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shop-item-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.price-icon {
+    font-size: 1.2rem;
+}
+
+.price-value {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+}
+
+.shop-item-btn {
+    background: var(--accent-color);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 10px 20px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    box-shadow: var(--shadow-sm);
+}
+
+.shop-item-btn:hover:not(:disabled) {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.shop-item-btn.owned {
+    background: var(--success-color);
+}
+
+.shop-item-btn.equipped {
+    background: var(--info-color);
+    cursor: default;
+}
+
+.shop-item-btn.locked {
+    background: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.shop-item-btn:disabled {
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* تصميم الإنجازات */
+.achievements-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.achievement-stat {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: var(--shadow-md);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.achievement-item {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+.achievement-item.unlocked {
+    border-color: var(--success-color);
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.achievement-item.locked {
+    opacity: 0.6;
+    filter: grayscale(50%);
+}
+
+.achievement-icon {
+    font-size: 2.5rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.achievement-info {
+    flex: 1;
+}
+
+.achievement-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.achievement-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.achievement-reward {
+    display: flex;
+    gap: 15px;
+}
+
+.reward-points,
+.reward-gems {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.achievement-status {
+    font-size: 1.5rem;
+}
+
+/* تصميم الإعدادات */
+.settings-content {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.setting-group {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+}
+
+.setting-group h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.toggle-switch:checked {
+    background: var(--accent-color);
+}
+
+.toggle-switch::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 21px;
+    height: 21px;
+    background: white;
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch:checked::before {
+    transform: translateX(25px);
+}
+
+.setting-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.setting-btn {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+}
+
+.setting-btn:hover {
+    background: var(--bg-card);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.setting-btn.danger {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+}
+
+.setting-btn.danger:hover {
+    background: rgba(244, 67, 54, 0.1);
+    border-color: var(--danger-color);
+}
+
+/* تصميم شاشة النتائج */
+#resultScreen {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+}
+
+.result-content {
+    background: var(--bg-card);
+    backdrop-filter: blur(30px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius-lg);
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: var(--shadow-xl);
+    animation: resultAppear 0.5s ease-out;
+}
+
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.result-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    animation: iconBounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes iconBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+#resultTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, var(--accent-color), #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#resultMessage {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.result-rewards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.reward-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reward-item:last-child {
+    border-bottom: none;
+}
+
+.reward-icon {
+    font-size: 1.2rem;
+    margin-left: 8px;
+}
+
+.reward-label {
+    flex: 1;
+    text-align: right;
+    color: var(--text-secondary);
+}
+
+.reward-value {
+    font-weight: 700;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.result-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.result-btn {
+    background: var(--bg-secondary);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--border-radius);
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
+}
+
+.result-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.result-btn.primary {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.result-btn.primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.result-btn.secondary:hover {
+    border-color: var(--accent-color);
+    background: rgba(240, 147, 251, 0.1);
+}
+
+/* تحسينات الحركة والتأثيرات */
+.cell.animate-place {
+    animation: cellPlace 0.3s ease-out;
+}
+
+@keyframes cellPlace {
+    0% {
+        transform: scale(0) rotate(180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(90deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.cell.glow {
+    animation: cellGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes cellGlow {
+    0% {
+        box-shadow: 0 0 10px var(--accent-color);
+    }
+    100% {
+        box-shadow: 0 0 30px var(--accent-color), 0 0 40px var(--accent-color);
+    }
+}
+
+/* تأثيرات الجسيمات المحسنة */
+.particle.star {
+    animation: starFloat 2s ease-out forwards;
+}
+
+@keyframes starFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(0.3) rotate(360deg);
+    }
+}
+
+.particle.heart {
+    animation: heartFloat 2.5s ease-out forwards;
+}
+
+@keyframes heartFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-75px) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(0.5);
+    }
+}
+
+/* تحسينات الاستجابة للهواتف */
+@media (max-width: 768px) {
+    .shop-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .shop-item {
+        padding: 15px;
+    }
+    
+    .shop-item-header {
+        gap: 10px;
+    }
+    
+    .shop-item-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+    
+    .achievements-stats {
+        gap: 10px;
+    }
+    
+    .achievement-stat {
+        min-width: 100px;
+        padding: 15px;
+    }
+    
+    .achievement-item {
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .achievement-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2rem;
+    }
+    
+    .result-content {
+        padding: 30px 20px;
+    }
+    
+    .result-icon {
+        font-size: 3rem;
+    }
+    
+    #resultTitle {
+        font-size: 2rem;
+    }
+    
+    .result-buttons {
+        flex-direction: column;
+    }
+    
+    .result-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .shop-item-footer {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .shop-item-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .achievement-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .achievement-reward {
+        justify-content: center;
+    }
+    
+    .setting-item {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .result-rewards {
+        padding: 15px;
+    }
+    
+    .reward-item {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+
+/* تأثيرات خاصة للثيمات */
+[data-theme="dark"] .cell:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #64b5f6;
+}
+
+[data-theme="purple"] .cell:hover {
+    background: rgba(156, 39, 176, 0.2);
+    border-color: #ab47bc;
+}
+
+[data-theme="green"] .cell:hover {
+    background: rgba(76, 175, 80, 0.2);
+    border-color: #66bb6a;
+}
+
+[data-theme="sunset"] .cell:hover {
+    background: rgba(255, 123, 123, 0.2);
+    border-color: #ff8a80;
+}
+
+/* تحسينات إضافية للتفاعل */
+.shop-item:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.mode-btn:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.main-btn:active {
+    transform: translateY(0) scale(0.95);
+}
+
+/* تأثيرات التحميل */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* تحسينات الوصولية */
+.screen:focus-within {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 4px;
+}
+
+button:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* تأثيرات الانتقال بين الشاشات */
+.screen.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة XO الاحترافية - إعداد أحمد أبو الخير</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- شاشة البداية -->
+    <div id="startScreen" class="screen">
+        <div class="game-header">
+            <h1 class="game-title">🎮 XO الاحترافية</h1>
+            <p class="game-subtitle">لعبة تيك تاك تو بتصميم عصري</p>
+        </div>
+        
+        <div class="player-stats">
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-info">
+                    <span class="stat-label">المستوى</span>
+                    <span id="playerLevel" class="stat-value">1</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <span class="stat-label">النقاط</span>
+                    <span id="totalPoints" class="stat-value">0</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💎</div>
+                <div class="stat-info">
+                    <span class="stat-label">الجواهر</span>
+                    <span id="totalGems" class="stat-value">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="experience-bar-container">
+            <div class="experience-label">
+                <span>الخبرة</span>
+                <span id="expText">0 / 100</span>
+            </div>
+            <div class="experience-bar">
+                <div id="expProgress" class="experience-fill"></div>
+            </div>
+        </div>
+
+        <div class="game-modes">
+            <h3>اختر نمط اللعب</h3>
+            <div class="mode-buttons">
+                <button class="mode-btn" data-mode="ai">
+                    <div class="mode-icon">🤖</div>
+                    <div class="mode-info">
+                        <h4>ضد الكمبيوتر</h4>
+                        <p>تحدى الذكاء الاصطناعي</p>
+                    </div>
+                </button>
+                <button class="mode-btn" data-mode="friend">
+                    <div class="mode-icon">👥</div>
+                    <div class="mode-info">
+                        <h4>ضد صديق</h4>
+                        <p>العب مع صديق محلياً</p>
+                    </div>
+                </button>
+                <button class="mode-btn" data-mode="tournament">
+                    <div class="mode-icon">🏆</div>
+                    <div class="mode-info">
+                        <h4>البطولة</h4>
+                        <p>سلسلة من المباريات</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="main-buttons">
+            <button id="shopBtn" class="main-btn shop-btn">
+                <span class="btn-icon">🛍️</span>
+                <span>المتجر</span>
+            </button>
+            <button id="achievementsBtn" class="main-btn achievements-btn">
+                <span class="btn-icon">🏅</span>
+                <span>الإنجازات</span>
+            </button>
+            <button id="settingsBtn" class="main-btn settings-btn">
+                <span class="btn-icon">⚙️</span>
+                <span>الإعدادات</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- شاشة اللعبة -->
+    <div id="gameScreen" class="screen hidden">
+        <div class="game-ui">
+            <div class="game-info">
+                <div class="current-player">
+                    <span>الدور الحالي:</span>
+                    <span id="currentPlayerDisplay" class="player-indicator">X</span>
+                </div>
+                <div class="game-score">
+                    <div class="score-item">
+                        <span class="score-label">X</span>
+                        <span id="scoreX" class="score-value">0</span>
+                    </div>
+                    <div class="score-separator">-</div>
+                    <div class="score-item">
+                        <span class="score-label">O</span>
+                        <span id="scoreO" class="score-value">0</span>
+                    </div>
+                </div>
+                <div class="round-info">
+                    <span>الجولة:</span>
+                    <span id="currentRound">1</span>
+                </div>
+            </div>
+            
+            <button id="backToMenuBtn" class="back-btn">
+                <span>🏠</span>
+                <span>القائمة الرئيسية</span>
+            </button>
+        </div>
+
+        <div class="game-board-container">
+            <div id="gameBoard" class="game-board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+            
+            <div class="winning-line" id="winningLine"></div>
+        </div>
+
+        <div class="game-controls">
+            <button id="resetGameBtn" class="control-btn">
+                <span>🔄</span>
+                <span>إعادة تشغيل</span>
+            </button>
+            <button id="hintBtn" class="control-btn">
+                <span>💡</span>
+                <span>تلميح</span>
+            </button>
+            <button id="undoBtn" class="control-btn">
+                <span>↶</span>
+                <span>تراجع</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- شاشة المتجر -->
+    <div id="shopScreen" class="screen hidden">
+        <div class="shop-header">
+            <h2>🛍️ المتجر</h2>
+            <div class="currency-display">
+                <div class="currency-item">
+                    <span class="currency-icon">⭐</span>
+                    <span id="shopPoints" class="currency-value">0</span>
+                </div>
+                <div class="currency-item">
+                    <span class="currency-icon">💎</span>
+                    <span id="shopGems" class="currency-value">0</span>
+                </div>
+            </div>
+            <button id="closeShopBtn" class="close-btn">✕</button>
+        </div>
+
+        <div class="shop-categories">
+            <button class="category-btn active" data-category="symbols">
+                <span class="category-icon">⭕</span>
+                <span>أشكال X & O</span>
+            </button>
+            <button class="category-btn" data-category="themes">
+                <span class="category-icon">🎨</span>
+                <span>الثيمات</span>
+            </button>
+            <button class="category-btn" data-category="tools">
+                <span class="category-icon">🛠️</span>
+                <span>الأدوات</span>
+            </button>
+            <button class="category-btn" data-category="effects">
+                <span class="category-icon">✨</span>
+                <span>التأثيرات</span>
+            </button>
+        </div>
+
+        <div class="shop-content">
+            <!-- محتوى المتجر سيتم إضافته ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- شاشة الإنجازات -->
+    <div id="achievementsScreen" class="screen hidden">
+        <div class="achievements-header">
+            <h2>🏅 الإنجازات</h2>
+            <button id="closeAchievementsBtn" class="close-btn">✕</button>
+        </div>
+        
+        <div class="achievements-stats">
+            <div class="achievement-stat">
+                <span class="stat-number" id="totalAchievements">0</span>
+                <span class="stat-label">إنجازات مفتوحة</span>
+            </div>
+            <div class="achievement-stat">
+                <span class="stat-number" id="totalWins">0</span>
+                <span class="stat-label">انتصارات</span>
+            </div>
+            <div class="achievement-stat">
+                <span class="stat-number" id="totalGamesPlayed">0</span>
+                <span class="stat-label">مباريات لعبت</span>
+            </div>
+        </div>
+
+        <div class="achievements-list" id="achievementsList">
+            <!-- الإنجازات ستضاف ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- شاشة الإعدادات -->
+    <div id="settingsScreen" class="screen hidden">
+        <div class="settings-header">
+            <h2>⚙️ الإعدادات</h2>
+            <button id="closeSettingsBtn" class="close-btn">✕</button>
+        </div>
+
+        <div class="settings-content">
+            <div class="setting-group">
+                <h3>🎵 الصوت</h3>
+                <div class="setting-item">
+                    <label for="soundToggle">تأثيرات صوتية</label>
+                    <input type="checkbox" id="soundToggle" class="toggle-switch" checked>
+                </div>
+                <div class="setting-item">
+                    <label for="musicToggle">موسيقى الخلفية</label>
+                    <input type="checkbox" id="musicToggle" class="toggle-switch" checked>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>🎮 اللعب</h3>
+                <div class="setting-item">
+                    <label for="animationsToggle">الحركات المتقدمة</label>
+                    <input type="checkbox" id="animationsToggle" class="toggle-switch" checked>
+                </div>
+                <div class="setting-item">
+                    <label for="hintsToggle">إظهار التلميحات</label>
+                    <input type="checkbox" id="hintsToggle" class="toggle-switch" checked>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>💾 البيانات</h3>
+                <div class="setting-buttons">
+                    <button id="exportDataBtn" class="setting-btn">
+                        <span>📤</span>
+                        <span>تصدير البيانات</span>
+                    </button>
+                    <button id="importDataBtn" class="setting-btn">
+                        <span>📥</span>
+                        <span>استيراد البيانات</span>
+                    </button>
+                    <button id="resetDataBtn" class="setting-btn danger">
+                        <span>🗑️</span>
+                        <span>إعادة تعيين</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة نتيجة المباراة -->
+    <div id="resultScreen" class="screen hidden">
+        <div class="result-content">
+            <div class="result-icon" id="resultIcon">🏆</div>
+            <h2 id="resultTitle">فوز!</h2>
+            <p id="resultMessage">تهانينا! لقد فزت في هذه المباراة</p>
+            
+            <div class="result-rewards">
+                <div class="reward-item">
+                    <span class="reward-icon">⭐</span>
+                    <span class="reward-label">نقاط مكتسبة:</span>
+                    <span id="earnedPoints" class="reward-value">+50</span>
+                </div>
+                <div class="reward-item">
+                    <span class="reward-icon">💎</span>
+                    <span class="reward-label">جواهر مكتسبة:</span>
+                    <span id="earnedGems" class="reward-value">+5</span>
+                </div>
+                <div class="reward-item">
+                    <span class="reward-icon">🔥</span>
+                    <span class="reward-label">خبرة مكتسبة:</span>
+                    <span id="earnedExp" class="reward-value">+25</span>
+                </div>
+            </div>
+
+            <div class="result-buttons">
+                <button id="playAgainBtn" class="result-btn primary">
+                    <span>🔄</span>
+                    <span>العب مرة أخرى</span>
+                </button>
+                <button id="backToMenuFromResultBtn" class="result-btn secondary">
+                    <span>🏠</span>
+                    <span>القائمة الرئيسية</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- إشعارات -->
+    <div id="notification" class="notification hidden">
+        <div class="notification-content">
+            <span class="notification-icon" id="notificationIcon">ℹ️</span>
+            <span class="notification-text" id="notificationText"></span>
+        </div>
+    </div>
+
+    <!-- مؤثرات الجسيمات -->
+    <div id="particleContainer" class="particle-container"></div>
+
+    <!-- ملف الصوت المخفي للاستيراد -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+    <script src="script.js"></script>
+</body>
+</html>
+
